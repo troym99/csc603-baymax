@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+  <title>Baymax</title>
+</head>
+<body>
+  <h1>Baymax</h1>
+
+  <form id="signup">
+    <h2>Sign up</h2>
+    <input name="username" placeholder="username">
+    <input name="password" type="password" placeholder="password">
+    <button>Sign up</button>
+  </form>
+
+  <form id="login">
+    <h2>Log in</h2>
+    <input name="username" placeholder="username">
+    <input name="password" type="password" placeholder="password">
+    <button>Log in</button>
+  </form>
+
+  <br>
+  <button id="logout">Log out</button>
+  <p id="status"></p>
+
+  <script>
+    const status = document.getElementById('status');
+
+    async function call(path, method, body) {
+      const res = await fetch('/api/' + path, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: body && JSON.stringify(body),
+      });
+      return res.status === 204 ? {} : res.json();
+    }
+
+    function show(data) {
+      status.textContent = data.error || (data.user ? 'Logged in as ' + data.user.username : 'Logged out');
+    }
+
+    for (const id of ['signup', 'login']) {
+      document.getElementById(id).onsubmit = async (e) => {
+        e.preventDefault();
+        const f = e.target;
+        show(await call(id, 'POST', { username: f.username.value, password: f.password.value }));
+      };
+    }
+
+    document.getElementById('logout').onclick = async () => {
+      await call('logout', 'POST');
+      show({});
+    };
+
+    call('me', 'GET').then(show);
+  </script>
+</body>
+</html>
