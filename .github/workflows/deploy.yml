@@ -1,0 +1,24 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2
+        env:
+          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          HOST: ${{ secrets.EC2_HOST }}
+        run: |
+          install -m 600 /dev/null key.pem
+          echo "$SSH_KEY" > key.pem
+          ssh -i key.pem -o StrictHostKeyChecking=accept-new ec2-user@"$HOST" '
+            source ~/.nvm/nvm.sh
+            cd ~/csc603-baymax
+            git pull
+            npm install --omit=dev
+            pm2 restart baymax
+          '
