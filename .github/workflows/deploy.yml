@@ -20,5 +20,6 @@ jobs:
             cd ~/csc603-baymax
             git pull
             npm install --omit=dev
+            npm run db:init
             pm2 restart baymax
           '
