@@ -24,8 +24,21 @@
   <button id="logout">Log out</button>
   <p id="status"></p>
 
+  <form id="baymaxChat">
+    <h2>Chat with Baymax</h2>
+    <input id="message" type="text" placeholder="Ask Baymax!" required>
+    <button type="submit">Send</button>
+
+  </form>
+
+  <p id="baymaxRes"></p>
+
   <script>
     const status = document.getElementById('status');
+
+    // TEST - ai inference
+    const baymaxChat = document.getElementById('baymaxChat');
+    const baymaxRes = document.getElementById('baymaxRes');
 
     async function call(path, method, body) {
       const res = await fetch('/api/' + path, {
@@ -54,6 +67,43 @@
     };
 
     call('me', 'GET').then(show);
+
+    // TEST - ai inference 
+    async function askBaymax(message) {
+      const response = await fetch("/api/inference/generate",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({message})
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Baymax is inresponsive");
+      }
+
+      const data = await response.json();
+      return data.message;
+    } 
+  
+    baymaxChat.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const message = document.getElementById("message").value;
+
+      baymaxRes.textContent = "Generating...";
+
+      try {
+        const response = await askBaymax(message);
+
+        baymaxRes.textContent = response;
+        } catch (err) {
+          baymaxRes.textContent = "Baymax failed to generate a response";
+        }
+    });
+
   </script>
 </body>
 </html>

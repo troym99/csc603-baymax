@@ -4,3 +4,7 @@ node_modules/
 .DS_Store
 coverage/
 dist/
+
+# python cache
+ai-service/__pycache__
+ai-service/.venv
