@@ -3,6 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const { query } = require('./db');
 const authRouter = require('./routes/auth');
+const inferenceRouter = require('./routes/inference');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/health', async (req, res, next) => {
 });
 
 app.use('/api', authRouter);
+app.use('/api/inference', inferenceRouter);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
