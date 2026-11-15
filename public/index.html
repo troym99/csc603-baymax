@@ -1,109 +1,102 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-  <title>Baymax</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7faf8">
+  <meta name="description" content="Baymax offers friendly, general health information. It is not a substitute for care from a medical professional.">
+  <title>Baymax — Health information, made human</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>Baymax v1</h1>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="Baymax home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 5.5 32 10v9.4c0 7.6-4.9 12.7-12 15.1-7.1-2.4-12-7.5-12-15.1V10l12-4.5Z"/><path d="M20 13v12M14 19h12"/></svg></span>
+        <span class="brand-name">baymax<span class="brand-dot">.</span><small>YOUR HEALTH COMPANION</small></span>
+      </a>
 
-  <form id="signup">
-    <h2>Sign up</h2>
-    <input name="username" placeholder="username">
-    <input name="password" type="password" placeholder="password">
-    <button>Sign up</button>
-  </form>
+      <button class="new-chat" id="newChat" type="button"><span>＋</span> New conversation</button>
+      <div class="sidebar-section">
+        <p class="side-label">YOUR SPACE</p>
+        <button class="side-link active" type="button" id="chatNav"><span class="side-icon">⌂</span> Health chat</button>
+        <button class="side-link" type="button" id="aboutNav"><span class="side-icon">✳</span> About Baymax</button>
+      </div>
+      <div class="sidebar-note">
+        <span class="note-icon">✳</span>
+        <div><strong>A little care goes a long way.</strong><p>Get clear, thoughtful health information whenever you need it.</p></div>
+      </div>
+      <div class="sidebar-bottom">
+        <div class="privacy-line"><span class="lock-icon">◷</span> Chat history isn’t saved</div>
+        <button class="account-button" id="accountButton" type="button">
+          <span class="avatar" id="avatar">B</span>
+          <span class="account-copy"><strong id="accountName">Welcome</strong><small id="accountSub">Sign in to get started</small></span>
+          <span class="account-more" aria-hidden="true">···</span>
+        </button>
+      </div>
+    </aside>
 
-  <form id="login">
-    <h2>Log in</h2>
-    <input name="username" placeholder="username">
-    <input name="password" type="password" placeholder="password">
-    <button>Log in</button>
-  </form>
+    <main class="main-area">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Open menu">☰</button>
+        <div class="crumb"><span>Baymax</span><span class="crumb-sep">/</span><strong>Health chat</strong></div>
+        <div class="topbar-right"><span class="secure-pill"><span class="secure-dot"></span> General health information</span><button class="top-signin" id="topSignin" type="button">Sign in</button></div>
+      </header>
 
-  <br>
-  <button id="logout">Log out</button>
-  <p id="status"></p>
+      <section class="chat-stage" aria-label="Baymax health chat">
+        <div class="chat-scroll" id="chatScroll">
+          <div class="welcome" id="welcome">
+            <div class="welcome-orb"><div class="orb-glow"></div><div class="baymax-face"><i></i><i></i><span></span></div><span class="orb-spark spark-one">✦</span><span class="orb-spark spark-two">✧</span></div>
+            <div class="eyebrow"><span class="eyebrow-dot"></span> HERE FOR YOU, ANYTIME</div>
+            <h1>Hi, I’m Baymax.<br><span>How can I help?</span></h1>
+            <p class="welcome-copy">Ask a health question and I’ll share clear, friendly information to help you feel more informed.</p>
 
-  <form id="baymaxChat">
-    <h2>Chat with Baymax</h2>
-    <input id="message" type="text" placeholder="Ask Baymax!" required>
-    <button type="submit">Send</button>
+            <div class="suggestion-grid" aria-label="Suggested questions">
+              <button class="suggestion" type="button" data-prompt="What are some ways to get better sleep?"><span class="suggestion-icon lavender">☾</span><span><strong>Sleep better</strong><small>Build a healthier bedtime routine</small></span><b>↗</b></button>
+              <button class="suggestion" type="button" data-prompt="What are some easy ways to stay hydrated?"><span class="suggestion-icon blue">⌁</span><span><strong>Everyday wellness</strong><small>Simple habits for feeling your best</small></span><b>↗</b></button>
+              <button class="suggestion" type="button" data-prompt="How can I prepare for a routine doctor visit?"><span class="suggestion-icon peach">♡</span><span><strong>Prepare for a visit</strong><small>Questions to ask your doctor</small></span><b>↗</b></button>
+              <button class="suggestion" type="button" data-prompt="Can you explain what a balanced meal looks like?"><span class="suggestion-icon mint">✳</span><span><strong>Understand nutrition</strong><small>Get plain-language explanations</small></span><b>↗</b></button>
+            </div>
+          </div>
 
-  </form>
+          <div class="messages" id="messages" aria-live="polite"></div>
+        </div>
 
-  <p id="baymaxRes"></p>
+        <div class="composer-wrap">
+          <div class="emergency-note"><span class="emergency-icon">!</span><span><strong>Need urgent help?</strong> Call 911 or go to your nearest emergency department.</span></div>
+          <form class="composer" id="chatForm">
+            <label class="sr-only" for="messageInput">Ask Baymax a health question</label>
+            <textarea id="messageInput" rows="1" maxlength="2000" placeholder="Ask me anything about your health..." required></textarea>
+            <div class="composer-tools"><span class="char-count" id="charCount">0 / 2000</span><span class="composer-hint">Baymax can make mistakes. Check important advice with a clinician.</span><button class="send-button" id="sendButton" type="submit" aria-label="Send message"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12 20 4l-5.5 16-2.8-6.7L4 12Z"/><path d="m11.7 13.3 4.1-4.1"/></svg></button></div>
+          </form>
+          <p class="bottom-disclaimer">Baymax provides general health information, not diagnosis or treatment. Always consult a qualified health professional.</p>
+        </div>
+      </section>
+    </main>
+  </div>
 
-  <script>
-    const status = document.getElementById('status');
-
-    // TEST - ai inference
-    const baymaxChat = document.getElementById('baymaxChat');
-    const baymaxRes = document.getElementById('baymaxRes');
-
-    async function call(path, method, body) {
-      const res = await fetch('/api/' + path, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: body && JSON.stringify(body),
-      });
-      return res.status === 204 ? {} : res.json();
-    }
-
-    function show(data) {
-      status.textContent = data.error || (data.user ? 'Logged in as ' + data.user.username : 'Logged out');
-    }
-
-    for (const id of ['signup', 'login']) {
-      document.getElementById(id).onsubmit = async (e) => {
-        e.preventDefault();
-        const f = e.target;
-        show(await call(id, 'POST', { username: f.username.value, password: f.password.value }));
-      };
-    }
-
-    document.getElementById('logout').onclick = async () => {
-      await call('logout', 'POST');
-      show({});
-    };
-
-    call('me', 'GET').then(show);
-
-    // TEST - ai inference 
-    async function askBaymax(message) {
-      const response = await fetch("/api/inference/generate",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({message})
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Baymax is inresponsive");
-      }
-
-      const data = await response.json();
-      return data.message;
-    } 
-  
-    baymaxChat.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      const message = document.getElementById("message").value;
-
-      baymaxRes.textContent = "Generating...";
-
-      try {
-        const response = await askBaymax(message);
-
-        baymaxRes.textContent = response;
-        } catch (err) {
-          baymaxRes.textContent = "Baymax failed to generate a response";
-        }
-    });
-
-  </script>
+  <div class="modal-backdrop" id="authModal" aria-hidden="true">
+    <section class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+      <button class="modal-close" id="closeModal" type="button" aria-label="Close">×</button>
+      <div class="modal-logo"><span class="brand-mark small-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 5.5 32 10v9.4c0 7.6-4.9 12.7-12 15.1-7.1-2.4-12-7.5-12-15.1V10l12-4.5Z"/><path d="M20 13v12M14 19h12"/></svg></span></div>
+      <p class="modal-kicker">YOUR HEALTH COMPANION</p>
+      <h2 id="authTitle">Welcome to Baymax</h2>
+      <p class="modal-intro">Sign in or create an account to start chatting with Baymax.</p>
+      <div class="auth-tabs" role="tablist"><button class="auth-tab selected" id="loginTab" type="button" role="tab">Sign in</button><button class="auth-tab" id="signupTab" type="button" role="tab">Create account</button></div>
+      <form id="authForm">
+        <label for="username">Username</label>
+        <div class="input-wrap"><span>＠</span><input id="username" name="username" autocomplete="username" minlength="3" maxlength="30" placeholder="Your username" required></div>
+        <label for="password">Password</label>
+        <div class="input-wrap"><span>⌑</span><input id="password" name="password" type="password" autocomplete="current-password" minlength="8" maxlength="72" placeholder="At least 8 characters" required></div>
+        <p class="auth-error" id="authError" role="alert"></p>
+        <button class="auth-submit" id="authSubmit" type="submit">Sign in <span>→</span></button>
+      </form>
+      <p class="auth-foot"><span>▣</span> Passwords are securely hashed and never shown in chat.</p>
+    </section>
+  </div>
+  <script src="/app.js" defer></script>
 </body>
 </html>
